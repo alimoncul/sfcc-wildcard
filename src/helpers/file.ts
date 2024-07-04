@@ -29,20 +29,21 @@ export function cartridgePathFinder() {
         const metadataFolder = path.join(basePath, "metadata");
         const siteXMLs = findFilesWithName(metadataFolder, "site.xml");
         let cartridgePath = "";
-    
+
         siteXMLs.forEach(siteXML => {
             const read = fs.readFileSync(siteXML, 'utf-8');
             const customCartridgesStart = read.indexOf("<custom-cartridges>");
             const customCartridgesEnd = read.indexOf("</custom-cartridges>");
             const siteXMLCartridgePath = read.substring(customCartridgesStart + "<custom-cartridges>".length, customCartridgesEnd);
-            if(siteXMLCartridgePath.length > cartridgePath.length) {
+            if (siteXMLCartridgePath.length > cartridgePath.length) {
                 cartridgePath = siteXMLCartridgePath;
             }
-        }); 
-    
+        });
+
         return cartridgePath;
-    } catch(error) {
+    } catch (error) {
         //@ts-ignore
-        console.error("Error while trying to get the cartridge path through site.xml", error.message);
+        vscode.window.showErrorMessage("Error while trying to get the cartridge path through site.xml");
+
     }
 }

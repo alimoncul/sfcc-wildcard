@@ -10,21 +10,35 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:javascript",
-    "onLanguage:typescript"
+    "onLanguage:javascript"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "configuration": {
       "title": "SFCC Wildcard",
       "properties": {
-        "sfccwildcard.cartridgePath": {
+        "sfcc.wildcard.cartridgePath": {
           "type": "string",
           "default": "",
           "description": "Cartridge path to lookup for require paths."
         }
       }
-    }
+    },
+    "menus": {
+      "editor/title": [
+        {
+          "command": "sfcc.wildcard.showOverrides",
+          "when": "editorFocus && resourceExtname  == '.js'",
+          "group": "navigation"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "sfcc.wildcard.showOverrides",
+        "title": "SFCC: Show Overrides"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
