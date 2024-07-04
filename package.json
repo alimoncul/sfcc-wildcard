@@ -28,7 +28,7 @@
       "editor/title": [
         {
           "command": "sfcc.wildcard.showOverrides",
-          "when": "editorFocus && resourceExtname  == '.js'",
+          "when": "editorFocus && (resourceExtname  == '.js' || resourceExtname  == '.isml' || resourceExtname  == '.xml' || resourceExtname  == '.properties')",
           "group": "navigation"
         }
       ]
