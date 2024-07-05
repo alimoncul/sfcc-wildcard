@@ -4,6 +4,13 @@
   "description": "A tool for increasing your efficiency on SFCC projects",
   "version": "0.0.1",
   "publisher": "alimoncul",
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/alimoncul/sfcc-wildcard"
+	},
+  "keywords": [
+		"sfcc override path"
+	],
   "engines": {
     "vscode": "^1.90.0"
   },
