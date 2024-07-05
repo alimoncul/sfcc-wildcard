@@ -2,15 +2,17 @@
   "name": "sfcc-wildcard",
   "displayName": "SFCC Wildcard",
   "description": "A tool for increasing your efficiency on SFCC projects",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "alimoncul",
   "repository": {
-		"type": "git",
-		"url": "https://github.com/alimoncul/sfcc-wildcard"
-	},
+    "type": "git",
+    "url": "https://github.com/alimoncul/sfcc-wildcard"
+  },
   "keywords": [
-		"sfcc", "override", "path"
-	],
+    "sfcc",
+    "override",
+    "path"
+  ],
   "engines": {
     "vscode": "^1.90.0"
   },
