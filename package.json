@@ -9,7 +9,7 @@
 		"url": "https://github.com/alimoncul/sfcc-wildcard"
 	},
   "keywords": [
-		"sfcc override path"
+		"sfcc", "override", "path"
 	],
   "engines": {
     "vscode": "^1.90.0"
