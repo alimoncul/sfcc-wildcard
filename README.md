@@ -10,13 +10,13 @@ The SFCC Wildcard is a tool designed to enhance developer efficiency by dynamica
 
 Automatically resolves `require` paths using cartridge paths found in the project directory or through manual configuration.
 
-![Path Resolving](https://github.com/alimoncul/sfcc-wildcard/demos/dynamic_path_resolver.gif)
+![Path Resolving](https://github.com/alimoncul/sfcc-wildcard/blob/main/demos/dynamic_path_resolver.gif)
 
 ### Show Overrides
 
 Provides a shortcut to identify where a specific file has been overridden and navigate quickly.
 
-![Show Overrides](https://github.com/alimoncul/sfcc-wildcard/demos/override.gif)
+![Show Overrides](https://github.com/alimoncul/sfcc-wildcard/blob/main/demos/override.gif)
 
 ## Configurations
 
