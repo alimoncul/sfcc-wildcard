@@ -2,7 +2,7 @@
   "name": "sfcc-wildcard",
   "displayName": "SFCC Wildcard",
   "description": "A tool for increasing your efficiency on SFCC projects",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "alimoncul",
   "repository": {
 		"type": "git",
