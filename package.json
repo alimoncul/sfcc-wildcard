@@ -22,6 +22,7 @@
   "activationEvents": [
     "onLanguage:javascript"
   ],
+  "icon": "demos/icon.png",
   "main": "./out/extension.js",
   "contributes": {
     "configuration": {
