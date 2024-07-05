@@ -5,7 +5,7 @@ import { cartridgePathFinder } from './helpers/file';
 import { PickerOption } from './types';
 
 export function showOverrides() {
-    const basePath = vscode.workspace.workspaceFolders?.[0]?.uri?.fsPath || ''; // Get the workspace root path
+    const basePath = vscode.workspace.workspaceFolders?.[0]?.uri?.fsPath || '';
     const cartridgePath = cartridgePathFinder();
     const cartridges = cartridgePath?.split(":");
     const overrideFiles: PickerOption[] = [];
@@ -45,12 +45,11 @@ export function showOverrides() {
         }
 
         if (overrideFiles.length) {
-            const reverse = overrideFiles.reverse();
             const quickPick = vscode.window.createQuickPick<PickerOption>();
 
-            quickPick.items = reverse;
+            quickPick.items = overrideFiles;
             quickPick.canSelectMany = false;
-            quickPick.activeItems = reverse.filter((po) => po.label === currentCartridge);
+            quickPick.activeItems = overrideFiles.filter((file) => file.label === currentCartridge);
 
             quickPick.onDidChangeSelection((selection) => {
                 const selectedItem = selection[0];

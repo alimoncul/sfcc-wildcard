@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import { ImportDefinitionProvider } from './definitionProvider';
 import { showOverrides } from './showOverrides';
 
-// This method is called when your extension is activated
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.languages.registerDefinitionProvider(
@@ -16,5 +15,4 @@ export function activate(context: vscode.ExtensionContext) {
     );
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() { }

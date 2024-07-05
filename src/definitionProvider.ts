@@ -11,17 +11,14 @@ export class ImportDefinitionProvider implements vscode.DefinitionProvider {
         document: vscode.TextDocument,
         position: vscode.Position
     ): vscode.ProviderResult<vscode.LocationLink[]> {
-        // Get the full line text at the current position
         const line = document.lineAt(position).text;
 
         this.resolveImportPath(line);
 
         if (this.resolvedPaths && this.resolvedPaths.length) {
-            // Find the start and end positions of the import path in the line
             const startPos = line.indexOf(this.importPathMatch) + this.importPathMatch.indexOf(this.importPath);
             const endPos = startPos + this.importPath.length;
 
-            // Create a range for the entire import path
             const range = new vscode.Range(
                 new vscode.Position(position.line, startPos),
                 new vscode.Position(position.line, endPos)
@@ -42,31 +39,80 @@ export class ImportDefinitionProvider implements vscode.DefinitionProvider {
     private resolveImportPath(line: string): void {
         this.resolvedPaths = [];
 
-        // Regular expression to match the entire import path
-        const importPathMatch = line.match(/require\(['"](\*\/[^'"]+)['"]\)/);
+        const overrideImportPathMatch = line.match(/require\(['"](\*\/[^'"]+)['"]\)/);
+        const sameImportPathMatch = line.match(/require\(['"](\~\/[^'"]+)['"]\)/);
 
-        if (!importPathMatch || importPathMatch.length < 2) {
+        if (!overrideImportPathMatch && !sameImportPathMatch) {
             this.importPath = "";
             this.importPathMatch = "";
             return;
         }
 
-        const importPath = importPathMatch[1];
-        if (!importPath.startsWith('*/')) {
-            this.importPath = importPath;
-            this.importPathMatch = importPathMatch[0];
+        const importToCalculate = overrideImportPathMatch || sameImportPathMatch;
+
+        if (!importToCalculate || importToCalculate.length < 2) {
+            this.importPath = "";
+            this.importPathMatch = "";
             return;
         }
 
-        const basePath = vscode.workspace.workspaceFolders?.[0]?.uri?.fsPath || ''; // Get the workspace root path
+        const importPath = importToCalculate[1];
+        let validImport = false;
+        let isLocalImport = false;
+
+        if (importPath.startsWith('*/')) {
+            validImport = true;
+        } else if (importPath.startsWith('~/')) {
+            validImport = true;
+            isLocalImport = true;
+        }
+
+        if (!validImport) {
+            this.importPath = importPath;
+            this.importPathMatch = importToCalculate[0];
+            return;
+        }
+
+        const basePath = vscode.workspace.workspaceFolders?.[0]?.uri?.fsPath || '';
         const cartridgePath = cartridgePathFinder();
         const cartridges = cartridgePath?.split(":");
+
+        if (isLocalImport) {
+            const currentPath = vscode.window.activeTextEditor?.document?.uri?.fsPath;
+
+            if (currentPath) {
+                const cartridgeToSplit = path.sep + "cartridge" + path.sep;
+                const cartridgesToSplit = path.sep + "cartridges" + path.sep;
+
+                const startIndex = currentPath.indexOf(cartridgesToSplit) + cartridgesToSplit.length;
+                const endIndex = currentPath.indexOf(cartridgeToSplit, startIndex);
+                const cartridgeName = currentPath.substring(startIndex, endIndex);
+
+                const withCartridges = path.join(basePath, "cartridges", cartridgeName);
+                const relativePath = importPath.replace('~/', '');
+
+                const resolvedPath = path.join(withCartridges, relativePath + '.js');
+
+                if (fs.existsSync(resolvedPath)) {
+                    this.resolvedPaths.push(resolvedPath);
+                }
+
+                if (this.resolvedPaths.length === 0) {
+                    vscode.window.showInformationMessage("Relative file could not be found in the cartridge path.");
+                }
+
+                this.importPath = importPath;
+                this.importPathMatch = importToCalculate[0];
+                return;
+            }
+        }
+
         if (cartridges?.length) {
             for (let i = 0; i < cartridges.length; i += 1) {
                 const cartridge = cartridges[i];
                 const withCartridges = path.join(basePath, "cartridges", cartridge);
                 const relativePath = importPath.replace('*/', '');
-                const resolvedPath = path.join(withCartridges, relativePath + '.js'); // Adjust the extension if necessary
+                const resolvedPath = path.join(withCartridges, relativePath + '.js');
 
                 if (fs.existsSync(resolvedPath)) {
                     this.resolvedPaths.push(resolvedPath);
@@ -78,7 +124,7 @@ export class ImportDefinitionProvider implements vscode.DefinitionProvider {
             }
 
             this.importPath = importPath;
-            this.importPathMatch = importPathMatch[0];
+            this.importPathMatch = importToCalculate[0];
             return;
         }
 
