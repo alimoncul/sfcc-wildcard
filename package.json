@@ -14,7 +14,7 @@
     "path"
   ],
   "engines": {
-    "vscode": "^1.90.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
     "Other"
@@ -58,7 +58,7 @@
     "lint": "eslint src --ext ts"
   },
   "devDependencies": {
-    "@types/vscode": "^1.90.0",
+    "@types/vscode": "^1.80.0",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
