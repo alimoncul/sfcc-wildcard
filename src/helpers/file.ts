@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import Constants from './constants';
 
 function findFilesWithName(folderPath: string, fileName: string, result: string[] = []) {
     const items = fs.readdirSync(folderPath);
@@ -40,4 +41,20 @@ export function cartridgePathFinder() {
     } catch (error) {
         vscode.window.showErrorMessage("Error while trying to get the cartridge path through site.xml");
     }
+}
+
+export function getFileName(uri: vscode.Uri | string): string {
+    if (typeof uri === "string") {
+        return uri.substring(uri.lastIndexOf(path.sep) + path.sep.length, uri.length);
+    } else {
+        return uri.fsPath.substring(uri.fsPath.lastIndexOf(path.sep) + path.sep.length, uri.fsPath.length);
+    }
+}
+
+export function getCartridgeName(uri: string): string {
+    const startIndex = uri.indexOf(Constants.CartridgesToSplit) + Constants.CartridgesToSplit.length;
+    const endIndex = uri.indexOf(Constants.CartridgeToSplit, startIndex);
+    const cartridgeName = uri.substring(startIndex, endIndex);
+
+    return cartridgeName;
 }

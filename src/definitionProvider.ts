@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { cartridgePathFinder } from './helpers/file';
+import Constants from './helpers/constants';
 
 export class ImportDefinitionProvider implements vscode.DefinitionProvider {
     resolvedPaths: string[] = [];
@@ -81,17 +82,15 @@ export class ImportDefinitionProvider implements vscode.DefinitionProvider {
             const currentPath = vscode.window.activeTextEditor?.document?.uri?.fsPath;
 
             if (currentPath) {
-                const cartridgeToSplit = path.sep + "cartridge" + path.sep;
-                const cartridgesToSplit = path.sep + "cartridges" + path.sep;
-
-                const startIndex = currentPath.indexOf(cartridgesToSplit) + cartridgesToSplit.length;
-                const endIndex = currentPath.indexOf(cartridgeToSplit, startIndex);
+                const startIndex = currentPath.indexOf(Constants.CartridgesToSplit) + Constants.CartridgesToSplit.length;
+                const endIndex = currentPath.indexOf(Constants.CartridgeToSplit, startIndex);
                 const cartridgeName = currentPath.substring(startIndex, endIndex);
 
                 const withCartridges = path.join(basePath, "cartridges", cartridgeName);
                 const relativePath = importPath.replace('~/', '');
+                const jsExtensionAddedBefore = relativePath.includes(".js");
 
-                const resolvedPath = path.join(withCartridges, relativePath + '.js');
+                const resolvedPath = path.join(withCartridges, jsExtensionAddedBefore ? relativePath : relativePath + '.js');
 
                 if (fs.existsSync(resolvedPath)) {
                     this.resolvedPaths.push(resolvedPath);
@@ -112,7 +111,9 @@ export class ImportDefinitionProvider implements vscode.DefinitionProvider {
                 const cartridge = cartridges[i];
                 const withCartridges = path.join(basePath, "cartridges", cartridge);
                 const relativePath = importPath.replace('*/', '');
-                const resolvedPath = path.join(withCartridges, relativePath + '.js');
+                const jsExtensionAddedBefore = relativePath.includes(".js");
+
+                const resolvedPath = path.join(withCartridges, jsExtensionAddedBefore ? relativePath : relativePath + '.js');
 
                 if (fs.existsSync(resolvedPath)) {
                     this.resolvedPaths.push(resolvedPath);
