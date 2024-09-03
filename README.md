@@ -3,6 +3,7 @@
 ![sfcc-wildcard](https://github.com/alimoncul/sfcc-wildcard/blob/main/demos/icon.png?raw=true)
 
 https://open-vsx.org/extension/alimoncul/sfcc-wildcard
+
 https://marketplace.visualstudio.com/items?itemName=alimoncul.sfcc-wildcard
 
 ## Overview
