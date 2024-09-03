@@ -2,6 +2,10 @@
 
 ![sfcc-wildcard](https://github.com/alimoncul/sfcc-wildcard/blob/main/demos/icon.png?raw=true)
 
+https://open-vsx.org/extension/alimoncul/sfcc-wildcard
+
+https://marketplace.visualstudio.com/items?itemName=alimoncul.sfcc-wildcard
+
 ## Overview
 
 The SFCC Wildcard is a tool designed to enhance developer efficiency by dynamically resolving paths in Salesforce Commerce Cloud (SFCC) projects and highlighting overridden files. This functionality ensures that developers can quickly identify and manage file overrides, streamlining the development process.
