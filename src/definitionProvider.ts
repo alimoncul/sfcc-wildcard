@@ -97,6 +97,7 @@ export class ImportDefinitionProvider implements vscode.DefinitionProvider {
                 }
 
                 if (this.resolvedPaths.length === 0) {
+                    Constants.OutputChannel.appendLine(`[definitionProvider.ts] resolvedPaths: ${this.resolvedPaths}`);
                     vscode.window.showInformationMessage("Relative file could not be found in the cartridge path.");
                 }
 
@@ -121,6 +122,7 @@ export class ImportDefinitionProvider implements vscode.DefinitionProvider {
             }
 
             if (this.resolvedPaths.length === 0) {
+                Constants.OutputChannel.appendLine(`[definitionProvider.ts] resolvedPaths: ${this.resolvedPaths}`);
                 vscode.window.showInformationMessage("Relative file could not be found in the cartridge path.");
             }
 
